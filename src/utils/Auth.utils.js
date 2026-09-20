@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import Config from "../config/config";
+import Config from "../config/config.js";
 
 
-export const CreateAccessToken = ()=>{
+export const CreateAccessToken = ({userId,role})=>{
   
     const accessToken = jwt.sign({
         userId,
@@ -17,7 +17,7 @@ export const ReadAccessToken = (accessToken)=>{
 }
 
 
-export const CreateRefreshToken = ()=>{
+export const CreateRefreshToken = ({userId,role})=>{
     const refreshToken = jwt.sign({
         userId,
         role

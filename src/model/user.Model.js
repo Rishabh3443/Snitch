@@ -18,11 +18,11 @@ const userSchema = new mongoose.Schema({
         minlength:7,
     },
     role:{
-        required:true,
-        default:user,
+        type:String,
+        default:"user",
         enum:["user","Seller"]
     },
-    Refreshtoken:{
+    RefreshToken:{
         type:String,
         
     }

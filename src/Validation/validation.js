@@ -8,7 +8,7 @@ export const registerValidater = [
       .trim()
       .isLength({min:2,max:50}).withMessage("Name length musst be 2 to 50 characters").bail(),
     body("email")
-       .exists.withMessage("please enter your email").bail()  
+       .exists().withMessage("please enter your email").bail()  
        .trim()
        .isEmail().withMessage("please enter valid email").bail(),
     body("password")   
@@ -29,5 +29,32 @@ export const registerValidater = [
 
          next()
         }
+    ]
+
+    export const loginValidator = [
+        body("email")
+          .exists().withMessage("please enter your email").bail()
+          .trim()
+          .isEmail().withMessage("please enter valid email"),
+        body("password")  
+           .exists().withMessage("please enter your password").bail()
+           .isString().withMessage("password must be string").bail()
+           .trim()
+           .isLength({min:6}).withMessage("please enter minimum 6 character long password"),
+
+           (req,res,next)=>{
+
+            const errors = validationResult(req)
+
+            if(!errors.isEmpty()){
+                return res.status(400).json({
+                    message:"invalid something",
+                    errors:errors.array()
+                })
+            }
+            next()
+           }
+
+
     ]
 

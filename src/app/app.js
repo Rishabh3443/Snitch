@@ -8,4 +8,4 @@ app.use(express.json());
 app.use("/api/auth",UserRoutes);
 
 
-export default app
+export default app 
