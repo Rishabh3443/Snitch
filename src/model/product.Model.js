@@ -19,13 +19,13 @@ const productSchema = new mongoose.Schema({
             type:String
         }],
         validate:{
-            validator: Array.images.length<5,
+            validator: images => Array.images.length<5,
             message:"A product can have only 5 images"
         }
     },
     price:{
         amount:{
-            type:number,
+            type:Number,
             required:true,
         },
         currency:{
@@ -34,8 +34,8 @@ const productSchema = new mongoose.Schema({
             enum:["INR","USD"]
         }
     },
-    sizes:{
-       Size:{
+    sizes:[{
+       size:{
         type:String,
         enum:["XS","S","M","L","XL","XXL"],
         required:true,
@@ -45,11 +45,11 @@ const productSchema = new mongoose.Schema({
         min:0,
         default:0,
        }
-    },
+    }],
 
   seller:{
         type:mongoose.Types.objectId,
-        refs:users,
+        ref:users,
         required:true
     }
 })
