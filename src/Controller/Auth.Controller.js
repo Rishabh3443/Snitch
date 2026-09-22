@@ -116,7 +116,9 @@ export const loginController = async (req, res) => {
 
 export const refreshController = async (req, res) => {
 
-    const refreshToken = res.cookie.refreshToken
+    const refreshToken = req.cookies.refreshToken
+
+    
 
     if (!refreshToken) {
         return res.status(400).json({
@@ -126,11 +128,18 @@ export const refreshController = async (req, res) => {
 
 
 
+
     const decoded = ReadRefreshToken(refreshToken)
 
     const { userId, role } = decoded
 
-    const user = await userModel.findOne({ userId })
+    
+    
+
+    const user = await userModel.findById(userId )
+
+    console.log(user.RefreshToken);
+    
 
     if (refreshToken != user.RefreshToken) {
 
