@@ -4,10 +4,12 @@ import { ReadAccessToken } from "../utils/Auth.utils.js"
 
 const authMiddleware = (req,res,next)=>{
 
-   const accessToken = req.headers.Authorization?.split("")[1]
+   const accessToken = req.headers.authorization?.split(" ")[1]
+
+   console.log("accessToken", accessToken)
 
    if(!accessToken){
-    return res.status(201).json({
+    return res.status(400).json({
         message:"accessToken not found"
     })
    }
@@ -15,6 +17,9 @@ const authMiddleware = (req,res,next)=>{
    try {
 
     const decoded = ReadAccessToken(accessToken);
+
+    const {userId , role} = decoded;
+    console.log("id",userId)
 
    req.user = decoded
 

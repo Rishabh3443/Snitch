@@ -138,9 +138,7 @@ export const refreshController = async (req, res) => {
 
     const user = await userModel.findById(userId )
 
-    console.log(user.RefreshToken);
     
-
     if (refreshToken != user.RefreshToken) {
 
         await userModel.findByIdAndUpdate(user._id, {
@@ -155,13 +153,15 @@ export const refreshController = async (req, res) => {
 
     const accessToken = CreateAccessToken({ userId, role })
 
-    const { refreshToken: newRefreshToken } = CreateRefreshToken({ userId, role })
+    const  newRefreshToken  = CreateRefreshToken({ userId, role })
 
     await userModel.findByIdAndUpdate(user._id, {
         RefreshToken: newRefreshToken
     })
 
-    res.cookie("refreshToken", newRefreshToken, {
+    console.log("rftoken== ",newRefreshToken)
+
+    res.cookie("refreshToken",newRefreshToken, {
         httpOnly: true
     })
 
@@ -180,7 +180,7 @@ export const refreshController = async (req, res) => {
 export const authmeController = async (req,res)=>{
     const {userId} = req.user
 
-    const user = await userModel.findById({userId})
+    const user = await userModel.findById(userId)
 
     res.status(201).json({
         message:"user fetched successfully",
