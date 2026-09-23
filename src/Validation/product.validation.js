@@ -21,10 +21,14 @@ const productValidator = [
         .exists().withMessage("please enter currency").bail()
         .isString().withMessage("Currency must be in a string value").bail()
         .isIn(["INR", "USD"]).withMessage("currency either be INR or USD"),
+    body("sizes")
+        .exists().withMessage("Sizes are required").bail()
+        .isArray().withMessage("Sizes must be an array of object"),
     body("sizes.*.size")
         .exists().withMessage("please enter sizes").bail()
         .isString().withMessage("sizes must be in string format").bail()
-        .isIn(["XS", "S", "M", "L", "XL", "XXL"]).withMessage("please enter size "),
+        .trim()
+        .isIn(["XS", "S", "M", "L", "XL", "XXL"]).withMessage("size can be one of these XS, S, M, L, XL, XXL."),
     body("sizes.*.stock")
         .exists().withMessage("please enter stock number").bail()
         .isInt({ min: 0 }).withMessage("stock must be in numeric value").bail(),
