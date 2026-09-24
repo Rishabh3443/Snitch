@@ -1,0 +1,11 @@
+
+
+export const creatproduct = (req,res)=>{
+    
+    console.log(req.body);
+    console.log(req.files)
+
+    res.status(200).json({
+        message:"dummy data"
+    })
+}
