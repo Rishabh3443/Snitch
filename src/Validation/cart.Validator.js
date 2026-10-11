@@ -9,7 +9,7 @@ export const addtoCartValidator =  [
     body("quantity")
            .exists().withMessage("Quantity is required").bail()
            .isInt().withMessage("Qauntity must be a integer and greator than 0"),
-    body("Size")
+    body("Size")  
          .exists().withMessage("Size is required ").bail()
          .toString().withMessage("Size must be a String").bail()
          .isIn(["S","M","L","XL","XXL"]).withMessage("Size must be one of S, M, L, XL,XXL "),
