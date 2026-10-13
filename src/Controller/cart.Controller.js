@@ -1,3 +1,5 @@
+
+import cartModel from "../model/cart.Model.js"
 import productModel from "../model/product.Model.js"
 
 
@@ -16,7 +18,8 @@ export const addToCartController = async (req,res)=>{
     const selectedSizes = product.sizes.find(s=> s.size===size)
 
     if(!selectedSizes){
-        return res.status(400).json({
+        return res.status(400).json({ 
+
             message:"invalid size"
         })
     }
@@ -26,5 +29,23 @@ export const addToCartController = async (req,res)=>{
         return res.satus(400).json({
             message:"Insufficient stock"
         })
+    }
+
+    const cart = (await cartModel.findById({user: req.user.userId})?? await cartModel.create({user:req.user.userId}) )
+
+        const productInCart = cart.products.find((p=> p.product.toString()=== productId)&&(p.size === size))
+
+        if(productInCart){
+            
+        if((productInCart.quantity + quantity)>selectedSizes.stock){
+
+            return res.status(400).json({
+                message:"insufficient stock"
+            })
+
+        }
+
+        
+        
     }
 }
