@@ -45,7 +45,50 @@ export const addToCartController = async (req,res)=>{
 
         }
 
-        
-        
+        await cartModel.updateOne({
+            user:req.user.userId,
+            "products.product": productId,
+            "product.size": size,
+        },
+    {
+        $inc:{
+            "products.$.quantity":quantity
+        }
+    })
+
+
+    return res.status(200).json({
+        message:"product quantity is updated"
+    })  
     }
+
+     await cartModel.findOneAndUpdate({
+        user: req.user.userId
+     },{
+        push:{
+            products:{
+                product:productId,
+                quantity:quantity,
+                size:size,
+            }
+
+        }
+
+     })
+
+      return res.status(200).json({
+        message: "Product added to cart"
+    })
+}
+
+export const getCart = async(req,res)=>{
+
+    const cart = (await cartModel.findOne({user:req.user.userId}))??(await cartModel.create({user:req.user.userId}))
+
+    return res.status(200).json({
+        message : "cart retrieve successfully",
+        data:{
+            cart: cart
+        }
+    });
 }
